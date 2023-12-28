@@ -79,7 +79,7 @@ $this->title = 'Pedido '.$realizados +1;
 
                         <div class="row">
                             <div class="col-md-4">
-                                <?= Html::dropDownList('s_id',null,$producto,['class' => 'form-control producto'])?>    
+                                <?= Html::dropDownList('s_id',3,$producto,['class' => 'form-control producto'])?>    
                             </div>
                             <div class="col-md-4">
                                 <input type="number" name="cantidad" value="1" class="form-control cantidad">
@@ -193,8 +193,11 @@ $this->title = 'Pedido '.$realizados +1;
             beforeSend: function() {
                 // $(".se-pre-con").fadeIn("slow");
             },  
-            success: function(respuesta) {
-                console.log(respuesta);
+            success: function(data) {
+                console.log(data);
+                if(data.respuesta){
+                    window.location.href = '<?= Url::to(['pedido/index'])?>';
+                }
 
             },
             error: function() {

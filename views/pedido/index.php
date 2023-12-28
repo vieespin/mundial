@@ -18,7 +18,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Create Pedido', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Nuevo Pedido', ['new-pedido'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
@@ -31,11 +31,11 @@ $this->params['breadcrumbs'][] = $this->title;
 
             //'id',
             'fono',
-            'fecha',
+            //'fecha',
             'nombre',
             'sector',
             
-            'repartidor',
+            //'repartidor',
             'calle',
             'numero',
             //'cliente_id',
@@ -45,6 +45,8 @@ $this->params['breadcrumbs'][] = $this->title;
                 'value' => 'estadoPedido.nombre',
                 'label' => 'Estado',
             ],
+
+
             
             [
                 'class' => ActionColumn::className(),

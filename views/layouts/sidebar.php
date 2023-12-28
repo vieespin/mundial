@@ -52,6 +52,13 @@
                         
                     ],
                     [
+                        'label' => 'Listado de Pedidos',
+                        'icon' => 'fa-solid fa-truck',
+
+                        'url' => ['pedido/index']
+                        
+                    ],
+                    [
                         'label' => 'Usuario',
                         'icon' => 'fa fa-user',
                         

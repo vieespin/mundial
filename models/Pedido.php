@@ -12,7 +12,7 @@ use Yii;
  * @property string|null $nombre
  * @property string|null $sector
  * @property string|null $fono
- * @property string|null $repartidor
+//  * @property string|null $repartidor
  * @property string|null $calle
  * @property string|null $numero
  * @property int $cliente_id
@@ -24,7 +24,7 @@ use Yii;
  * @property EstadoPedido $estadoPedido
  * @property Garantia[] $garantias
  * @property Pago[] $pagos
- * @property Repartidor $repartidor0
+ * @property Repartidor $repartidor
  */
 class Pedido extends \yii\db\ActiveRecord
 {
@@ -45,7 +45,7 @@ class Pedido extends \yii\db\ActiveRecord
             [['fecha'], 'safe'],
             [['cliente_id', 'repartidor_id', 'estado_pedido_id'], 'required'],
             [['cliente_id', 'repartidor_id', 'estado_pedido_id'], 'integer'],
-            [['nombre', 'sector', 'fono', 'repartidor', 'calle', 'numero'], 'string', 'max' => 45],
+            [['nombre', 'sector', 'fono', 'calle', 'numero'], 'string', 'max' => 45],
             [['cliente_id'], 'exist', 'skipOnError' => true, 'targetClass' => Cliente::class, 'targetAttribute' => ['cliente_id' => 'id']],
             [['estado_pedido_id'], 'exist', 'skipOnError' => true, 'targetClass' => EstadoPedido::class, 'targetAttribute' => ['estado_pedido_id' => 'id']],
             [['repartidor_id'], 'exist', 'skipOnError' => true, 'targetClass' => Repartidor::class, 'targetAttribute' => ['repartidor_id' => 'id']],
@@ -63,7 +63,7 @@ class Pedido extends \yii\db\ActiveRecord
             'nombre' => 'Nombre',
             'sector' => 'Sector',
             'fono' => 'Fono',
-            'repartidor' => 'Repartidor',
+            //'repartidor' => 'Repartidor',
             'calle' => 'Calle',
             'numero' => 'Numero',
             'cliente_id' => 'Cliente ID',
@@ -127,7 +127,7 @@ class Pedido extends \yii\db\ActiveRecord
      *
      * @return \yii\db\ActiveQuery
      */
-    public function getRepartidor0()
+    public function getRepartidor()
     {
         return $this->hasOne(Repartidor::class, ['id' => 'repartidor_id']);
     }

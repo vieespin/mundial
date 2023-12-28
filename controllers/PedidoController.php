@@ -48,6 +48,8 @@ class PedidoController extends Controller
         $searchModel = new PedidoSearch();
         $dataProvider = $searchModel->search($this->request->queryParams);
 
+        $dataProvider -> sort->defaultOrder = ['id' => SORT_DESC];
+
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
@@ -159,66 +161,78 @@ class PedidoController extends Controller
     }
     public function actionGenerar($fono, $nombre, $sector, $calle, $numero, $repartidor, $detalle){
 
+        $guardado = false;
+
+
         $cliente = Cliente::find()->where(['fono'=>$fono])->one();
-            if($cliente){
-                //si existe, actualizo datos
-                $cliente->nombre = $nombre;
-                $cliente->sector = $sector;
-                $cliente->calle = $calle;
-                $cliente->numero = $numero;
+        if($cliente){
+            //si existe, actualizo datos
+            $cliente->nombre = $nombre;
+            $cliente->sector = $sector;
+            $cliente->calle = $calle;
+            $cliente->numero = $numero;
                 
                 
-            }
-            else{
-                //sino lo creo 
-                $cliente = new Cliente();
-                $cliente->nombre = $nombre;
-                $cliente->fono = $fono;
-                $cliente->sector = $sector;
-                $cliente->calle = $calle;
-                $cliente->numero = $numero;
-                
-            }
+        }else{
+            //sino lo creo 
+            $cliente = new Cliente();
+            $cliente->nombre = $nombre;
+            $cliente->fono = $fono;
+            $cliente->sector = $sector;
+            $cliente->calle = $calle;
+            $cliente->numero = $numero;
+            
+        }
 
-            $cliente->save();
+        $cliente->save();
 
-            $pedido = new Pedido();
+        $pedido = new Pedido();
 
-            $pedido->nombre = $nombre;
-            $pedido->fono = $fono;
-            $pedido->sector = $sector;
-            $pedido->calle = $calle;
-            $pedido->numero = $numero;
-            $pedido->fecha = date('Y-m-d H:i');
-            $pedido->repartidor_id = $repartidor;
+        $pedido->nombre = $nombre;
+        $pedido->fono = $fono;
+        $pedido->sector = $sector;
+        $pedido->calle = $calle;
+        $pedido->numero = $numero;
+        $pedido->fecha = date('Y-m-d H:i');
+        $pedido->repartidor_id = $repartidor;
 
 
-            $pedido->cliente_id = $cliente->id;
-            //$pedido->repartidor_id = $model->repartidor;
-            $pedido->estado_pedido_id = 1;
+        $pedido->cliente_id = $cliente->id;
+        //$pedido->repartidor_id = $model->repartidor;
+        $pedido->estado_pedido_id = 1;
 
-            $pedido->save();
+        // if(!$pedido -> save()){
+        //     print_r ($pedido->getErrors());
+        //     die;
+        // }
 
-            $detalles= explode("-", $detalle);
-            foreach ($detalles as $detalle) {
-                $producto_cantidad = explode(",", $detalle);
-                $producto = (int)$producto_cantidad[0];
-                $cantidad = (int)$producto_cantidad[1];
+        $pedido->save();
 
-                $actual = \app\models\Producto::findOne($producto);
+        if($pedido->save()){
+            $guardado = true;
+        }
 
-                $detalle = new \app\models\Detalle();
-                $detalle->producto_id = $producto;
-                $detalle->cantidad = $cantidad;
-                $detalle->pedido_id = $pedido->id;
-                $detalle->valor = $actual->valor;
+        $detalles= explode("-", $detalle);
+        foreach ($detalles as $detalle) {
+            $producto_cantidad = explode(",", $detalle);
+            $producto = (int)$producto_cantidad[0];
+            $cantidad = (int)$producto_cantidad[1];
 
-                $detalle->save();
+            $actual = \app\models\Producto::findOne($producto);
 
-                # code...
-            }
-        //var_dump($cliente);
-        //return $this->asJson([$fono, $nombre, $sector, $calle, $numero, $repartidor, $detalle]);
+            $detalle = new \app\models\Detalle();
+            $detalle->producto_id = $producto;
+            $detalle->cantidad = $cantidad;
+            $detalle->pedido_id = $pedido->id;
+            $detalle->valor = $actual->valor*$cantidad;
+
+            $detalle->save();
+
+        }
+        
+        return $this->asJson(['respuesta'=> $guardado]);
+
+        
 
     }
 
