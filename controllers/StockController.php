@@ -7,6 +7,9 @@ use app\models\StockSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use app\models\Producto;
+use app\models\Bodega;
+use yii\helpers\ArrayHelper;
 
 /**
  * StockController implements the CRUD actions for Stock model.
@@ -68,6 +71,8 @@ class StockController extends Controller
     public function actionCreate()
     {
         $model = new Stock();
+        $producto = ArrayHelper::map(Producto::find()->all(), 'id', 'nombre');
+        $bodega = ArrayHelper::map(Bodega::find()->all(), 'id', 'nombre');
 
         if ($this->request->isPost) {
             if ($model->load($this->request->post()) && $model->save()) {
@@ -79,6 +84,8 @@ class StockController extends Controller
 
         return $this->render('create', [
             'model' => $model,
+            'producto' => $producto,
+            'bodega' => $bodega,
         ]);
     }
 

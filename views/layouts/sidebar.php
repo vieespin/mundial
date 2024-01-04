@@ -94,6 +94,13 @@
                         
                     ],
                     [
+                        'label' => 'Stock',
+                        'icon' => 'fa-solid fa-money-bill',
+
+                        'url' => ['stock/index']
+                        
+                    ],
+                    [
                         'label' => 'Medio de pago',
                         'icon' => 'fa-solid fa-money-bill',
 
