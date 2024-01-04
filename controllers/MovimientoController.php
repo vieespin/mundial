@@ -7,6 +7,10 @@ use app\models\MovimientoSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\helpers\ArrayHelper;
+use app\models\Producto;
+use app\models\Bodega;
+
 
 /**
  * MovimientoController implements the CRUD actions for Movimiento model.
@@ -68,6 +72,9 @@ class MovimientoController extends Controller
     public function actionCreate()
     {
         $model = new Movimiento();
+        $model->fecha=date('Y-m-d H:i');
+        $producto = ArrayHelper::map(Producto::find()->all(), 'id', 'nombre');
+        $bodega = ArrayHelper::map(Bodega::find()->all(), 'id', 'nombre');
 
         if ($this->request->isPost) {
             if ($model->load($this->request->post()) && $model->save()) {
@@ -79,6 +86,8 @@ class MovimientoController extends Controller
 
         return $this->render('create', [
             'model' => $model,
+            'producto' => $producto,
+            'bodega' => $bodega,
         ]);
     }
 

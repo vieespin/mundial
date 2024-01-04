@@ -22,6 +22,10 @@ class Movimiento extends \yii\db\ActiveRecord
     /**
      * {@inheritdoc}
      */
+
+    const tipos = ["INGRESO" => "INGRESO", "EGRESO" => "EGRESO"];
+    
+    
     public static function tableName()
     {
         return 'movimiento';

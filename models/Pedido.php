@@ -131,4 +131,16 @@ class Pedido extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Repartidor::class, ['id' => 'repartidor_id']);
     }
+
+    public function getTotal()
+    {
+        $suma = 0;
+
+
+        foreach ($this->detalles as $key => $detalle)
+        {
+            $suma += $detalle->valor;
+        }
+        return $suma;
+    }
 }

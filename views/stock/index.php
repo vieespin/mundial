@@ -30,8 +30,22 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\SerialColumn'],
 
             'id',
-            'bodega_id',
-            'producto_id',
+            [
+                'value' => function($model)
+                {
+                    return $model->bodega->nombre;
+                },
+                'label' => 'Bodega',
+                'attribute' => 'bodega_id'
+            ],
+            [
+                'value' => function($model)
+                {
+                    return $model->producto->nombre;
+                },
+                'label' => 'Producto',
+                'attribute' => 'producto_id'
+            ],
             'cantidad',
             [
                 'class' => ActionColumn::className(),

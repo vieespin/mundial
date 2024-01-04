@@ -286,4 +286,22 @@ class PedidoController extends Controller
 
         throw new NotFoundHttpException('The requested page does not exist.');
     }
+    public function actionPagar($id)
+    {
+        $pedido = $this->findModel($id);
+        $pedido->estado_pedido_id = 3;
+        $pedido->save();
+
+        $pago = new \app\models\Pago();
+
+        $pago->monto = $pedido->getTotal();//pedido->total
+        $pago->fecha=date('Y-m-d H:i');
+        $pago->pedido_id = $id;
+        $pago->medio_pago_id = 1;
+
+        $pago->save();
+
+        return $this->redirect(['index']);
+
+    }
 }

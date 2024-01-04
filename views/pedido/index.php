@@ -31,7 +31,11 @@ $this->params['breadcrumbs'][] = $this->title;
 
             //'id',
             'fono',
-            //'fecha',
+            [
+                'label' => 'Hora',
+                'attribute' => 'fecha',
+                'format' => ['time', 'php:H:i:s'],
+            ],
             'nombre',
             'sector',
             
@@ -45,6 +49,24 @@ $this->params['breadcrumbs'][] = $this->title;
                 'value' => 'estadoPedido.nombre',
                 'label' => 'Estado',
             ],
+            [
+                'label' => 'Acción',
+                'format'=>'raw',
+                'value'=>function ($model, $key, $index, $column){
+                    $url = Url::to(['pedido/pagar', 'id' => $model->id]);
+                    return Html::a('PAGAR',
+                        ['pedido/pagar', 'id' => $model->id],
+                        [
+                            'title' => 'Pagar',
+                            'class' => 'btn btn-info',
+                            // 'target' => '_blank',
+                            //'onclick' => 'window.open("'.$url.'","_blank")'
+                        ]);
+                },
+                'filter'=>false,
+                'enableSorting'=>false,
+                'headerOptions' => ['style' => 'color: #007bff'],
+            ],
 
 
             
@@ -54,6 +76,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     return Url::toRoute([$action, 'id' => $model->id]);
                  }
             ],
+            
         ],
     ]); ?>
 
