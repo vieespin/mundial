@@ -25,7 +25,12 @@ $this->title = 'Pedido '.$realizados +1;
         
         <?= $form->field($model, 'nombre')->textInput(['maxlength' => true]) ?>
 
-        <?= $form->field($model, 'sector')->textInput(['maxlength' => true]) ?>
+        <?= $form->field($model, 'sector')->dropDownList(['Chiguayante' => 'Chiguayante', 
+                                                          'Hualqui' => 'Hualqui', 
+                                                          'Quilacoya' => 'Quilacoya', 
+                                                          'Unihue' => 'Unihue', 
+                                                          'Talcamavida' => 'Talcamavida'], 
+                                                          ['prompt' => 'Seleccione sector']) ?>
 
         <?= $form->field($model, 'calle')->textInput(['maxlength' => true]) ?>
 
