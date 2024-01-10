@@ -101,6 +101,8 @@ class MovimientoController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+        $producto = ArrayHelper::map(Producto::find()->all(), 'id', 'nombre');
+        $bodega = ArrayHelper::map(Bodega::find()->all(), 'id', 'nombre');
 
         if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
@@ -108,6 +110,8 @@ class MovimientoController extends Controller
 
         return $this->render('update', [
             'model' => $model,
+            'producto' => $producto,
+            'bodega' => $bodega,
         ]);
     }
 

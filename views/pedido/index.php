@@ -4,7 +4,7 @@ use app\models\Pedido;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\grid\ActionColumn;
-use yii\grid\GridView;
+use kartik\grid\GridView;
 
 /** @var yii\web\View $this */
 /** @var app\models\PedidoSearch $searchModel */
@@ -22,6 +22,7 @@ $this->params['breadcrumbs'][] = $this->title;
     </p>
 
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
+    
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
@@ -49,19 +50,24 @@ $this->params['breadcrumbs'][] = $this->title;
                 'value' => 'estadoPedido.nombre',
                 'label' => 'Estado',
             ],
+        
             [
                 'label' => 'Acción',
                 'format'=>'raw',
                 'value'=>function ($model, $key, $index, $column){
                     $url = Url::to(['pedido/pagar', 'id' => $model->id]);
-                    return Html::a('PAGAR',
-                        ['pedido/pagar', 'id' => $model->id],
-                        [
-                            'title' => 'Pagar',
-                            'class' => 'btn btn-info',
-                            // 'target' => '_blank',
-                            //'onclick' => 'window.open("'.$url.'","_blank")'
-                        ]);
+                    if($model->estado_pedido_id == 3){
+                        return "";
+                    } else {
+                        return Html::a('PAGAR',
+                            ['pedido/pagar', 'id' => $model->id],
+                            [
+                                'title' => 'Pagar',
+                                'class' => 'btn btn-info',
+                                // 'target' => '_blank',
+                                //'onclick' => 'window.open("'.$url.'","_blank")'
+                            ]);
+                    }
                 },
                 'filter'=>false,
                 'enableSorting'=>false,

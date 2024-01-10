@@ -99,6 +99,8 @@ class StockController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+        $bodega = ArrayHelper::map(Bodega::find()->all(), 'id', 'nombre');
+        $producto = ArrayHelper::map(Producto::find()->all(), 'id', 'nombre');
 
         if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
@@ -106,6 +108,8 @@ class StockController extends Controller
 
         return $this->render('update', [
             'model' => $model,
+            'bodega' => $bodega,
+            'producto' => $producto,
         ]);
     }
 

@@ -23,7 +23,7 @@ use kartik\select2\Select2
         'pluginOptions' => [
             'allowClear' => true
         ],
-    ])->label('Medio de Pago')?>
+    ])->label('Repartidor')?>
 
     <div class="form-group">
         <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>

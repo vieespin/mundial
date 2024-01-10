@@ -33,7 +33,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'fono',
             'sector',
             'calle',
-            //'numero',
+            'numero',
             [
                 'class' => ActionColumn::className(),
                 'urlCreator' => function ($action, Cliente $model, $key, $index, $column) {
@@ -71,7 +71,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'fono',
             'sector',
             'calle',
-            //'numero',
+            'numero',
             [
                 'class' => ActionColumn::className(),
                 'urlCreator' => function ($action, Cliente $model, $key, $index, $column) {

@@ -8,6 +8,7 @@ $config = [
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
     'language' => 'es',
+    'timeZone' => 'America/Santiago',
     'aliases' => [
         '@bower' => '@vendor/bower-asset',
         '@npm'   => '@vendor/npm-asset',
@@ -16,6 +17,17 @@ $config = [
         'request' => [
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
             'cookieValidationKey' => 'w9yxDKttvf7uCIvREGCmvwk4XiZ9YJpK',
+        ],
+        'formatter' => [
+            'class' => 'yii\i18n\Formatter',
+            'dateFormat' => 'php:d-m-Y',
+            'datetimeFormat' => 'php:d-m-Y H:i A',
+            'timeFormat' => 'php:H:i A',
+            'defaultTimeZone' => 'America/Santiago',
+            'locale' => 'es_CL',
+            'thousandSeparator' => '.',
+            'decimalSeparator' => ',',
+            // 'currencyCode' => '$',
         ],
         'cache' => [
             'class' => 'yii\caching\FileCache',

@@ -31,7 +31,12 @@ $this->params['breadcrumbs'][] = $this->title;
 
             'id',
             'nombre',
-            'repartidor_id',
+            //'repartidor_id',
+            [
+                'attribute' => 'repartidor_id',
+                'label' => 'Repartidor',
+                'value' => 'repartidor.usuario.username'
+            ],
             [
                 'class' => ActionColumn::className(),
                 'urlCreator' => function ($action, Bodega $model, $key, $index, $column) {

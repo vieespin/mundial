@@ -98,7 +98,7 @@ class PedidoController extends Controller
         $medioPago = ArrayHelper::map(MedioPago::find()->all(), 'id', 'nombre');
         $producto = ArrayHelper::map(Producto::find()->all(), 'id', 'nombre');
         $repartidores = ArrayHelper::map(Repartidor::find()->all(), 'id', function($model){
-            return $model->usuario->nombre;
+            return $model->usuario->username;
         });
         $realizados = Pedido::find()->count();
 
@@ -300,6 +300,27 @@ class PedidoController extends Controller
         $pago->medio_pago_id = 1;
 
         $pago->save();
+
+        //buscar el detalle y descontar del stock de acuerdo
+        //a la bodega dondde esta asociado el repartidor del pedido
+
+        // buscar la bodega del repartidor
+
+        $bodega = \app\models\Bodega::find()->where(['repartidor_id' => $pedido->repartidor_id])->one();
+
+        foreach ($pedido->detalles as $detalle) {
+            // buscar el stock y descontar
+            $stock = \app\models\Stock::find()
+                ->where([
+                    'producto_id' => $detalle->producto_id,
+                    'bodega_id' => $bodega->id,
+                    ])
+                ->one();
+            
+            $stock->cantidad = $stock->cantidad - $detalle->cantidad;
+            $stock->save();
+            
+        }
 
         return $this->redirect(['index']);
 

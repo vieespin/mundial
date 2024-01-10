@@ -71,7 +71,11 @@ class BodegaController extends Controller
     public function actionCreate()
     {
         $model = new Bodega();
-        $repartidor = ArrayHelper::map(Repartidor::find()->all(), 'id', 'usuario_id');
+        //$repartidor = ArrayHelper::map(Repartidor::find()->all(), 'id', 'usuario_id');
+        $repartidor = ArrayHelper::map(Repartidor::find()->all(), 'id', function($model){
+            return $model->usuario->username;
+        });
+
         $usuario = ArrayHelper::map(Usuario::find()->all(), 'id', 'nombre');
 
         if ($this->request->isPost) {
@@ -99,6 +103,9 @@ class BodegaController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+        $repartidor = ArrayHelper::map(Repartidor::find()->all(), 'id', function($model){
+            return $model->usuario->username;
+        });
 
         if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
@@ -106,6 +113,7 @@ class BodegaController extends Controller
 
         return $this->render('update', [
             'model' => $model,
+            'repartidor' => $repartidor,
         ]);
     }
 
