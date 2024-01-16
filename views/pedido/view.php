@@ -40,7 +40,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'sector',
                 'fono',
                 [
-                    'value' => $model->repartidor->usuario->nombre,
+                    'value' => $model->repartidor->usuario->username,
                     'label' => 'Repartidor'
                 ],
                 'calle',

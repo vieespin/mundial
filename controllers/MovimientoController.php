@@ -78,6 +78,28 @@ class MovimientoController extends Controller
 
         if ($this->request->isPost) {
             if ($model->load($this->request->post()) && $model->save()) {
+
+                //en stock hay que buscar la bodega y el producto
+
+                $stock = \app\models\Stock::find()
+                    ->where(['bodega_id' => $model->bodega_id, 'producto_id' => $model->producto_id])
+                    ->one();
+
+                if(!$stock){ //aqui se supone que no hay del stock en esa bodega, hay que crearlo
+                    $stock = new \app\models\Stock();
+                    $stock->bodega_id = $model->bodega_id;
+                    $stock->producto_id = $model->producto_id;
+                    $stock->cantidad = $model->cantidad;
+                } else { //en este caso si hay stock, solo hay q actualizarlo
+                    if($model->tipo == "INGRESO"){
+                        $stock->cantidad = $stock->cantidad + $model->cantidad;
+                    } else {
+                        $stock->cantidad = $stock->cantidad - $model->cantidad;
+                    }
+                }
+
+                $stock->save();
+
                 return $this->redirect(['view', 'id' => $model->id]);
             }
         } else {
