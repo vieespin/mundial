@@ -6,7 +6,7 @@ use yii\helpers\Url;
 
 /** @var yii\web\View $this */
 
-$this->title = 'My Yii Application';
+$this->title = '';
 ?>
 <div class="site-index">
 

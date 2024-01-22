@@ -5,8 +5,8 @@ use yii\helpers\Html;
 /** @var yii\web\View $this */
 /** @var app\models\Repartidor $model */
 
-$this->title = 'Create Repartidor';
-$this->params['breadcrumbs'][] = ['label' => 'Repartidors', 'url' => ['index']];
+$this->title = 'Crear Repartidor';
+$this->params['breadcrumbs'][] = ['label' => 'Repartidor', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="repartidor-create">

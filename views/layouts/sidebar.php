@@ -71,6 +71,13 @@ use yii\helpers\Url;
                         
                     ],
                     [
+                        'label' => 'Repartidores',
+                        'icon' => 'fa fa-user',
+                        
+                        'url' => ['repartidor/index']
+                        
+                    ],
+                    [
                         'label' => 'Clientes',
                         'icon' => 'fa-solid fa-users',
 

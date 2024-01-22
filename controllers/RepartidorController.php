@@ -70,7 +70,7 @@ class RepartidorController extends Controller
     public function actionCreate()
     {
         $model = new Repartidor();
-        $usuario = ArrayHelper::map(Usuario::find()->all(), 'id', 'nombre');
+        $usuario = ArrayHelper::map(Usuario::find()->all(), 'id', 'username');
 
         if ($this->request->isPost) {
             if ($model->load($this->request->post()) && $model->save()) {
