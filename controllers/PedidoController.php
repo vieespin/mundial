@@ -325,4 +325,12 @@ class PedidoController extends Controller
         return $this->redirect(['index']);
 
     }
+
+    public function actionDetalle($id){
+        $model = $this->findModel($id);
+
+        return $this->renderAjax('_detalle', [
+            'model' => $model,
+        ]);
+    }
 }

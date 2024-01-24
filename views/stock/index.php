@@ -15,7 +15,7 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="stock-index">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <!-- <h1><?= Html::encode($this->title) ?></h1> -->
 
     <p>
         <?= Html::a('Create Stock', ['create'], ['class' => 'btn btn-success']) ?>
@@ -47,12 +47,14 @@ $this->params['breadcrumbs'][] = $this->title;
                 'attribute' => 'producto_id'
             ],
             'cantidad',
-            [
+            /*[
                 'class' => ActionColumn::className(),
                 'urlCreator' => function ($action, Stock $model, $key, $index, $column) {
                     return Url::toRoute([$action, 'id' => $model->id]);
-                 }
-            ],
+                 },
+                // 'template' => '{view} {update} {delete}',
+                'template' => '',
+            ],*/
         ],
     ]); ?>
 

@@ -59,13 +59,23 @@ $this->params['breadcrumbs'][] = $this->title;
                     if($model->estado_pedido_id == 3){
                         return "";
                     } else {
-                        return Html::a('PAGAR',
+                        /*return Html::a('PAGAR',
                             ['pedido/pagar', 'id' => $model->id],
                             [
                                 'title' => 'Pagar',
                                 'class' => 'btn btn-info',
                                 // 'target' => '_blank',
                                 //'onclick' => 'window.open("'.$url.'","_blank")'
+                            ]);*/
+
+                        return Html::a('PAGAR',
+                            '#',
+                            [
+                                'title' => 'PAGAR',
+                                'class' => 'btn btn-info showModalButton',
+                                'data-toggle' => 'modal',
+                                'data-target' => '#modal',
+                                'value' => Url::to(['pedido/detalle', 'id' => $model->id]),
                             ]);
                     }
                 },

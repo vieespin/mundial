@@ -23,9 +23,14 @@ class AppAsset extends AssetBundle
         'css/site.css',
     ];
     public $js = [
+        'js/ajax-modal-popup.js?v=2',
     ];
     public $depends = [
         'yii\web\YiiAsset',
-        'yii\bootstrap5\BootstrapAsset'
+        // 'yii\bootstrap5\BootstrapAsset'
+    ];
+
+    public $jsOptions = [
+        'position' => \yii\web\View::POS_HEAD
     ];
 }

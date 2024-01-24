@@ -4,6 +4,8 @@
 /* @var $content string */
 
 use yii\helpers\Html;
+use app\assets\AppAsset;
+AppAsset::register($this);
 
 \hail812\adminlte3\assets\FontAwesomeAsset::register($this);
 \hail812\adminlte3\assets\AdminLteAsset::register($this);
@@ -49,7 +51,28 @@ $this->registerJsFile($publishedRes[1].'/control_sidebar.js', ['depends' => '\ha
     <?= $this->render('footer') ?>
 </div>
 
+<?php
+    yii\bootstrap4\Modal::begin([
+        // 'header' => '<div id="modalHeader"></div>',
+        'title' => '<div id="modalHeader"></div>',
+        'id' => 'modal',
+        'closeButton' => ['id' => 'close-button'],
+        'size' => 'modal-lg',
+        'options' => [
+            'tabindex' => false // important for Select2 to work properly
+        ],
+    ]);
+    echo "<div id='modalContent'></div>";
+    yii\bootstrap4\Modal::end();
+?>
+
 <?php $this->endBody() ?>
+<script>
+    $("#modal").on("hidden.bs.modal", function(e){
+        $("#modalHeader").empty();
+        $("#modalContent").empty();
+    });
+</script>
 </body>
 </html>
 <?php $this->endPage() ?>
