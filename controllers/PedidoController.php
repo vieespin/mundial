@@ -50,9 +50,12 @@ class PedidoController extends Controller
 
         $dataProvider -> sort->defaultOrder = ['id' => SORT_DESC];
 
+        $medioPago = ArrayHelper::map(MedioPago::find()->all(), 'id', 'nombre');
+
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+            'medio_pago' => $medioPago,
         ]);
     }
 
@@ -326,11 +329,77 @@ class PedidoController extends Controller
 
     }
 
+    public function actionPagarPedido($id, $detalles){
+
+        $pedido = $this->findModel($id);
+        $pedido->estado_pedido_id = 3;
+        $pedido->save();
+
+        $detalle= explode("-", $detalles);
+        foreach ($detalle as $tupla) {
+            $forma_monto = explode(",", $tupla);
+            $forma = (int)$forma_monto[0];
+            $monto = (int)$forma_monto[1];
+
+            $pago = new \app\models\Pago();
+
+            $pago->monto = $monto;
+            $pago->fecha=date('Y-m-d H:i');
+            $pago->pedido_id = $id;
+            $pago->medio_pago_id = $forma;
+
+            $pago->save();
+        }
+
+        $bodega = \app\models\Bodega::find()->where(['repartidor_id' => $pedido->repartidor_id])->one();
+
+        foreach ($pedido->detalles as $detalle) {
+            // buscar el stock y descontar
+            $stock = \app\models\Stock::find()
+                ->where([
+                    'producto_id' => $detalle->producto_id,
+                    'bodega_id' => $bodega->id,
+                    ])
+                ->one();
+            
+            $stock->cantidad = $stock->cantidad - $detalle->cantidad;
+            $stock->save();
+            
+        }
+        return true;
+    }
+
     public function actionDetalle($id){
-        $model = $this->findModel($id);
+
+        $pedido = $this->findModel($id);
+
+        $medioPago = ArrayHelper::map(MedioPago::find()->all(), 'id', 'nombre');
 
         return $this->renderAjax('_detalle', [
-            'model' => $model,
+            'pedido' => $pedido,
+            'medio_pago' => $medioPago,
+        ]);
+    }
+
+    public function actionFactura($id){
+        $factura = new \app\models\Factura();
+
+        $factura->pedido_id = $id;
+
+        //Validación mediante ajax
+        if ($factura->load($this->request->post()) && $this->request->isAjax){
+            $this->response->format = Response::FORMAT_JSON;
+            return ActiveForm::validate($factura);
+        }
+
+        if ($factura->load($this->request->post()) && $factura->validate()) {
+            $factura->save();
+
+            return $this->redirect(['index']);
+        }
+
+        return this->renderAjax('_factura', [
+            'factura' => $factura,
         ]);
     }
 }

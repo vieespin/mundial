@@ -178,7 +178,7 @@ $this->title = 'Pedido '.$realizados +1;
 
 
         if(detalle == "error"){
-            alert("Revisa la wea");
+            alert("Revisa la wea, asopao");
             return;
         }
 
