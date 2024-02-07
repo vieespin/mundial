@@ -36,6 +36,8 @@ $this->title = 'Pedido '.$realizados +1;
 
         <?= $form->field($model, 'numero')->textInput(['maxlength' => true]) ?>
 
+        <?= $form->field($model, 'observacion')->textInput(['maxlength' => true]) ?>
+
        
 
         <?php  /*echo $form->field($model, 'medio_pago')->widget(Select2::classname(), [
@@ -129,6 +131,7 @@ $this->title = 'Pedido '.$realizados +1;
                     $('#pedidoform-sector').val(respuesta.sector);
                     $('#pedidoform-calle').val(respuesta.calle);
                     $('#pedidoform-numero').val(respuesta.numero);
+                    $('#pedidoform-observacion').val(respuesta.observacion);
 
                 }
             },
@@ -171,6 +174,7 @@ $this->title = 'Pedido '.$realizados +1;
         var sector = $('#pedidoform-sector').val();
         var calle = $('#pedidoform-calle').val();
         var numero = $('#pedidoform-numero').val();
+        var observacion = $('#pedidoform-observacion').val();
         var repartidor = $('#pedidoform-repartidor').val();
         var detalle = obtener_pagos();
         console.log(detalle);
@@ -190,6 +194,7 @@ $this->title = 'Pedido '.$realizados +1;
                 'sector' : sector,
                 'calle' : calle,
                 'numero' : numero,
+                'observacion' : observacion,
                 'repartidor' : repartidor,
                 'detalle' : detalle
             },

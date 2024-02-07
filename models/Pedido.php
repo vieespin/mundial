@@ -15,6 +15,7 @@ use Yii;
 //  * @property string|null $repartidor
  * @property string|null $calle
  * @property string|null $numero
+ * @property string|null $observacion
  * @property int $cliente_id
  * @property int $repartidor_id
  * @property int $estado_pedido_id
@@ -45,7 +46,7 @@ class Pedido extends \yii\db\ActiveRecord
             [['fecha'], 'safe'],
             [['cliente_id', 'repartidor_id', 'estado_pedido_id'], 'required'],
             [['cliente_id', 'repartidor_id', 'estado_pedido_id'], 'integer'],
-            [['nombre', 'sector', 'fono', 'calle', 'numero'], 'string', 'max' => 45],
+            [['nombre', 'sector', 'fono', 'calle', 'numero', 'observacion'], 'string', 'max' => 45],
             [['cliente_id'], 'exist', 'skipOnError' => true, 'targetClass' => Cliente::class, 'targetAttribute' => ['cliente_id' => 'id']],
             [['estado_pedido_id'], 'exist', 'skipOnError' => true, 'targetClass' => EstadoPedido::class, 'targetAttribute' => ['estado_pedido_id' => 'id']],
             [['repartidor_id'], 'exist', 'skipOnError' => true, 'targetClass' => Repartidor::class, 'targetAttribute' => ['repartidor_id' => 'id']],
@@ -66,6 +67,7 @@ class Pedido extends \yii\db\ActiveRecord
             //'repartidor' => 'Repartidor',
             'calle' => 'Calle',
             'numero' => 'Numero',
+            'observacion' => 'Observacion',
             'cliente_id' => 'Cliente ID',
             'repartidor_id' => 'Repartidor ID',
             'estado_pedido_id' => 'Estado Pedido ID',

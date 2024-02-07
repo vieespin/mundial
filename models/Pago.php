@@ -34,6 +34,7 @@ class Pago extends \yii\db\ActiveRecord
         return [
             [['monto', 'pedido_id', 'medio_pago_id'], 'integer'],
             [['fecha'], 'safe'],
+            [['rut', 'nombre'], 'string'],
             [['pedido_id', 'medio_pago_id'], 'required'],
             [['medio_pago_id'], 'exist', 'skipOnError' => true, 'targetClass' => MedioPago::class, 'targetAttribute' => ['medio_pago_id' => 'id']],
             [['pedido_id'], 'exist', 'skipOnError' => true, 'targetClass' => Pedido::class, 'targetAttribute' => ['pedido_id' => 'id']],

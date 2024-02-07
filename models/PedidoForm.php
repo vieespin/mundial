@@ -16,6 +16,7 @@ class PedidoForm extends Model
     public $repartidor;
     public $calle;
     public $numero;
+    public $observacion;
     //public $cliente_id;
     public $medio_pago;
     //public $repartidor_id;
@@ -32,7 +33,7 @@ class PedidoForm extends Model
         return [
             // name, email, subject and body are required
             [['nombre', 'fono', 'calle', 'numero', 'repartidor'], 'required'],
-            [['sector', 'repartidor'], 'string'],
+            [['sector', 'repartidor', 'observacion'], 'string'],
             [['repartidor', 'numero'], 'integer'],
             ['fono', 'match', 'pattern' => '/^\+569\d{8}$/', 'message' => 'Ingresar una wea valida'],
 

@@ -139,6 +139,7 @@ class PedidoController extends Controller
             $pedido->calle = $model->calle;
             $pedido->numero = $model->numero;
             $pedido->fecha = date('Y-m-d H:i');
+            $pedido->observacion = $model->observacion;
 
 
             $pedido->cliente_id = $cliente->id;
@@ -162,7 +163,7 @@ class PedidoController extends Controller
         ]);
 
     }
-    public function actionGenerar($fono, $nombre, $sector, $calle, $numero, $repartidor, $detalle){
+    public function actionGenerar($fono, $nombre, $sector, $calle, $numero, $observacion, $repartidor, $detalle){
 
         $guardado = false;
 
@@ -184,6 +185,7 @@ class PedidoController extends Controller
             $cliente->sector = $sector;
             $cliente->calle = $calle;
             $cliente->numero = $numero;
+
             
         }
 
@@ -197,6 +199,7 @@ class PedidoController extends Controller
         $pedido->calle = $calle;
         $pedido->numero = $numero;
         $pedido->fecha = date('Y-m-d H:i');
+        $pedido->observacion = $observacion;
         $pedido->repartidor_id = $repartidor;
 
 
@@ -378,6 +381,47 @@ class PedidoController extends Controller
         return $this->renderAjax('_detalle', [
             'pedido' => $pedido,
             'medio_pago' => $medioPago,
+        ]);
+    }
+
+    public function actionDetalleFactura($id){
+
+        $pedido = $this->findModel($id);
+
+        $pago = new \app\models\Pago();
+
+        $pago->fecha = date('Y-m-d H:i');
+        $pago->monto = $pedido->total;
+        $pago->pedido_id = $pedido->id;
+        $pago->medio_pago_id = 7; //Ese es el ID de factura
+
+        if ($pago->load($this->request->post()) && $pago->validate()) {
+            $pago->save();
+
+            $pedido->estado_pedido_id = 3;
+            $pedido->save();
+
+            $bodega = \app\models\Bodega::find()->where(['repartidor_id' => $pedido->repartidor_id])->one();
+
+            foreach ($pedido->detalles as $detalle) {
+                // buscar el stock y descontar
+                $stock = \app\models\Stock::find()
+                    ->where([
+                        'producto_id' => $detalle->producto_id,
+                        'bodega_id' => $bodega->id,
+                        ])
+                    ->one();
+                
+                $stock->cantidad = $stock->cantidad - $detalle->cantidad;
+                $stock->save();
+                
+            }
+            return $this->redirect(['index']);
+        }
+
+        return $this->renderAjax('_detalle-factura', [
+            'pedido' => $pedido,
+            'pago' => $pago,
         ]);
     }
 

@@ -26,6 +26,8 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'numero')->textInput(['maxlength' => true]) ?>
 
+    <?= $form->field($model, 'observacion')->textInput(['maxlength' => true]) ?>
+
     <?= $form->field($model, 'cliente_id')->textInput() ?>
 
     <?= $form->field($model, 'repartidor_id')->textInput() ?>

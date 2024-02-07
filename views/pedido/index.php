@@ -5,6 +5,8 @@ use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\grid\ActionColumn;
 use kartik\grid\GridView;
+use kartik\export\ExportMenu;
+use kartik\daterange\DateRangePicker;
 
 /** @var yii\web\View $this */
 /** @var app\models\PedidoSearch $searchModel */
@@ -15,18 +17,61 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="pedido-index">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <!-- <h1><?= Html::encode($this->title) ?></h1> -->
 
     <p>
         <?= Html::a('Nuevo Pedido', ['new-pedido'], ['class' => 'btn btn-success']) ?>
     </p>
 
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
+    <?php echo $this->render('_search', ['model' => $searchModel]); ?>
+    <?php
+    $columnas = [
+            ['class' => 'yii\grid\SerialColumn'],
+
+            'id',
+            'fecha',
+            'cliente_id',
+            'fono',
+            'repartidor_id',
+            'sector',
+            'calle',
+            'numero',
+            'observacion',
+            [
+                'value' => 'estadoPedido.nombre',
+                'label' => 'Estado Pedido',
+            ],
+            
+            [
+                'class' => ActionColumn::className(),
+                'urlCreator' => function ($action, Cliente $model, $key, $index, $column) {
+                    return Url::toRoute([$action, 'id' => $model->id]);
+                 }
+            ],
+        ];
+    ?>
+
+    <?php echo ExportMenu::widget([
+                'dataProvider' => $dataProvider,
+                'columns' => $columnas,
+                // 'hiddenColumns'=>[0, 4, 9], 
+                // 'disabledColumns'=>[1, 2],
+                'clearBuffers' => true,
+                'showConfirmAlert' => false,
+                'exportConfig' => [
+                    ExportMenu::FORMAT_TEXT => false,
+                    ExportMenu::FORMAT_PDF => false,
+                    ExportMenu::FORMAT_HTML => false,
+                    ExportMenu::FORMAT_EXCEL => false,
+                    ExportMenu::FORMAT_CSV => false,
+                ],
+                'filename' => 'Usuarios',
+            ])?>
     
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
-        'filterModel' => $searchModel,
+        // 'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
@@ -36,6 +81,19 @@ $this->params['breadcrumbs'][] = $this->title;
                 'label' => 'Hora',
                 'attribute' => 'fecha',
                 'format' => ['time', 'php:H:i:s'],
+                // 'filter' => DateRangePicker::widget([
+                //     'model' => $searchModel,
+                //     'name' => 'searchModel[fecha]',
+                //     'convertFormat'=>true,
+                //     'presetDropdown'=>true,
+                //     'startAttribute'=>'inicio_rango',
+                //     'endAttribute'=>'fin_rango',
+                //     'options' => ['placeholder' => 'Todas las fechas'],
+                //     'pluginOptions'=>[
+                //         'locale'=>['format' => 'd-m-Y'],
+                //         'opens'=>'right'
+                //     ]
+                // ]),
             ],
             'nombre',
             'sector',
@@ -43,6 +101,7 @@ $this->params['breadcrumbs'][] = $this->title;
             //'repartidor',
             'calle',
             'numero',
+            'observacion',
             //'cliente_id',
             //'repartidor_id',
             [
@@ -85,7 +144,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             'class' => 'btn btn-secondary btn-sm showModalButton',
                             'data-toggle' => 'modal',
                             'data-target' => '#modal',
-                            'value' => Url::to(['pedido/factura', 'id' => $model->id]),
+                            'value' => Url::to(['pedido/detalle-factura', 'id' => $model->id]),
                         ]);
 
                         return $boton_pagar.' '.$boton_factura;
@@ -107,6 +166,10 @@ $this->params['breadcrumbs'][] = $this->title;
             
         ],
     ]); ?>
+
+
+
+
 
 
 </div>

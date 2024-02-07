@@ -45,6 +45,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 ],
                 'calle',
                 'numero',
+                'observacion',
                 [
                     'value' => $model->cliente->nombre,
                     'label' => 'Cliente'
