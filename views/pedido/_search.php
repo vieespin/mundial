@@ -354,6 +354,11 @@ error</label>
 
 </div> -->
 
+
+
+
+
+
 <div class="pedido-search">
 
     <?php $form = ActiveForm::begin([
@@ -365,7 +370,14 @@ error</label>
 
         <!-- <?= $form->field($model, 'id') ?> -->
 
-        <?= $form->field($model, 'fecha', ['template' => '
+        <div class="card bg-light text-dark">
+            <div class="card-header">
+                <h3 class="card-title">Barra de busqueda</h3>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-3">
+                    <?= $form->field($model, 'fecha', ['template' => '
                     <div >
                         {label}
                         <div class="input-group col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -386,12 +398,36 @@ error</label>
                 'opens'=>'right'
             ]
         ])->label('Fecha creación')?>
+                    </div>
+                    <div class="col-3">
+                        <?= $form->field($model, 'nombre') ?>
+                    </div>
+                    <div class="col-3">
+                        <?= $form->field($model, 'sector') ?>
+                    </div>
+                    <div class="col-3">
+                        <?= $form->field($model, 'fono') ?>
+                    </div>
+                    <div class="col-3">
+                    <div class="form-group">
+                        <?= Html::submitButton('Search', ['class' => 'btn btn-primary']) ?>
+                        
+                        <?= Html::a('Reset', ['index'], ['class' => 'btn btn-secondary']) ?>
+                    </div>
+                    </div>
+                    
+                </div>
+            </div>
+
+        </div>
+
+        
     
-        <?= $form->field($model, 'nombre') ?>
+        
 
-        <?= $form->field($model, 'sector') ?>
+        
 
-        <?= $form->field($model, 'fono') ?>
+     
     </div>
 
 
@@ -408,11 +444,7 @@ error</label>
 
     <?php // echo $form->field($model, 'estado_pedido_id') ?>
 
-    <div class="form-group">
-        <?= Html::submitButton('Search', ['class' => 'btn btn-primary']) ?>
-        
-        <?= Html::a('Reset', ['index'], ['class' => 'btn btn-secondary']) ?>
-    </div>
+    
 
     <?php ActiveForm::end(); ?>
 
